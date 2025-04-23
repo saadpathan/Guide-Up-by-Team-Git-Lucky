@@ -39,8 +39,12 @@ const feedbacks = [
 export const FeedbackSlider = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
-    slidesToScroll: 3,
-    containScroll: "trimSnaps"
+    slidesToScroll: 1,
+    containScroll: "trimSnaps",
+    breakpoints: {
+      '(min-width: 640px)': { slidesToScroll: 2 },
+      '(min-width: 1024px)': { slidesToScroll: 3 }
+    }
   });
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -54,24 +58,24 @@ export const FeedbackSlider = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative px-4 sm:px-6 lg:px-8">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {feedbacks.map((feedback, index) => (
-            <div key={index} className="flex-[0_0_33.333%] min-w-0 p-4">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-full">
+            <div key={index} className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 p-2 sm:p-4">
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200 h-full">
                 <div className="flex items-center mb-4">
                   <img
                     src={feedback.image}
                     alt={feedback.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover mr-3 sm:mr-4"
                   />
                   <div>
-                    <h3 className="font-semibold text-lg">{feedback.name}</h3>
-                    <p className="text-muted-foreground">{feedback.role}</p>
+                    <h3 className="font-semibold text-base sm:text-lg">{feedback.name}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground">{feedback.role}</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground italic">"{feedback.feedback}"</p>
+                <p className="text-sm sm:text-base text-muted-foreground italic">"{feedback.feedback}"</p>
               </div>
             </div>
           ))}
@@ -81,7 +85,7 @@ export const FeedbackSlider = () => {
         ref={prevButtonRef}
         variant="outline"
         size="icon"
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4"
         onClick={onPrevButtonClick}
       >
         <ChevronLeft className="h-4 w-4" />
@@ -90,7 +94,7 @@ export const FeedbackSlider = () => {
         ref={nextButtonRef}
         variant="outline"
         size="icon"
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4"
         onClick={onNextButtonClick}
       >
         <ChevronRight className="h-4 w-4" />
