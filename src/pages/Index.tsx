@@ -4,6 +4,10 @@ import { LargeTextToggle } from "@/components/LargeTextToggle";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { FeedbackSlider } from "@/components/FeedbackSlider";
+import { FAQ } from "@/components/FAQ";
+import { TalkToRepresentative } from "@/components/TalkToRepresentative";
+import { RecentNews } from "@/components/RecentNews";
 
 const Index = () => {
   const resources = [
@@ -64,16 +68,8 @@ const Index = () => {
           <LargeTextToggle />
         </div>
         
-        <section id="welcome" className="mb-16 animate-fade-in">
-          <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 className="text-3xl font-bold text-foreground mb-6">Welcome to GuideUp</h2>
-            <p className="text-lg text-foreground mb-6">
-              We understand that navigating the digital world can be challenging. Our mission is to make it easier for everyone to access important online resources and services.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              Use the buttons at the top to find essential information, or explore the categories below. Need help? Click the speaker icon to have the content read aloud to you.
-            </p>
-          </div>
+        <section className="mb-16 animate-fade-in">
+          <RecentNews />
         </section>
         
         <section id="resources" className="mb-16">
@@ -89,6 +85,19 @@ const Index = () => {
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="mb-16">
+          <TalkToRepresentative />
+        </section>
+
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">What Our Users Say</h2>
+          <FeedbackSlider />
+        </section>
+
+        <section className="mb-16">
+          <FAQ />
         </section>
         
         <section id="get-started" className="bg-primary/10 p-8 rounded-lg animate-fade-in">

@@ -1,75 +1,88 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const navigation = [
+  { name: "Home", href: "/" },
+  { name: "Government Services", href: "/government" },
+  { name: "Healthcare", href: "/healthcare" },
+  { name: "Community", href: "/community" },
+  { name: "Tech Help", href: "/tech-help" },
+];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+export const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   return (
-    <header className="bg-white shadow-sm py-6">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <span className="text-primary text-2xl font-bold tracking-tight">GuideUp</span>
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
-          <NavLinks />
-        </nav>
-        
-        {/* Mobile Menu Button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="md:hidden" 
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </Button>
-      </div>
+    <header className="bg-white shadow-sm">
+      <nav className="container mx-auto px-4 py-4" aria-label="Global">
+        <div className="flex items-center justify-between">
+          <div className="flex lg:flex-1">
+            <Link to="/" className="-m-1.5 p-1.5">
+              <span className="text-2xl font-bold text-primary">GuideUp</span>
+            </Link>
+          </div>
+          
+          {/* Mobile menu button */}
+          <div className="flex lg:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
+          </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-md z-50 py-4 border-t">
-          <nav className="container mx-auto px-4 flex flex-col space-y-4">
-            <NavLinks mobile onClose={() => setIsMenuOpen(false)} />
-          </nav>
+          {/* Desktop navigation */}
+          <div className="hidden lg:flex lg:gap-x-12">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "text-sm font-semibold leading-6 text-gray-900 hover:text-primary transition-colors",
+                  location.pathname === item.href && "text-primary"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
         </div>
-      )}
+
+        {/* Mobile navigation */}
+        <div
+          className={cn(
+            "lg:hidden",
+            mobileMenuOpen ? "block" : "hidden"
+          )}
+        >
+          <div className="space-y-1 py-3">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "block px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50",
+                  location.pathname === item.href && "text-primary"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </nav>
     </header>
   );
-}
-
-function NavLinks({ mobile = false, onClose = () => {} }) {
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Government Services", path: "/government" },
-    { name: "Healthcare", path: "/healthcare" },
-    { name: "Community", path: "/community" },
-    { name: "Technology Help", path: "/tech-help" },
-  ];
-
-  return (
-    <>
-      {links.map((link) => (
-        <Link
-          key={link.name}
-          to={link.path}
-          className={`text-foreground hover:text-link-hover transition-colors ${
-            mobile ? 'text-lg py-2' : 'font-medium'
-          }`}
-          onClick={onClose}
-        >
-          {link.name}
-        </Link>
-      ))}
-    </>
-  );
-}
+};
