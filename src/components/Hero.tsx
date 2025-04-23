@@ -37,7 +37,7 @@ export function Hero({ title, subtitle, imageSrc }: HeroProps) {
               />
             ) : (
               <div className="bg-purple/20 w-full max-w-md h-64 rounded-lg flex items-center justify-center">
-                <span className="text-purple text-xl">DigitalBridge</span>
+                <span className="text-purple text-xl">GuideUp</span>
               </div>
             )}
           </div>
